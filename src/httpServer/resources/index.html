@@ -1,0 +1,87 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+
+	<h1>Update (Modify) an Existing Image Or Create a New Image  (POST)</h1>
+	<form id="post" action = "/images" method="post">
+		Enter the file name you want to update,  or leave it empty to create a new image:<br/>
+		<input id="textPost" type="text" value="img1.png">
+		<input id="fileToPost" type="file" onchange="POST();" /> 
+		<input id="postContents" name="" hidden="on"> <input type="submit">
+	</form>
+	<br/>
+	<h1>Replace an Existing  Image Or Create a New Image (PUT)</h1>
+	<form  id="put" action = "/_PUT/images" method="post" >
+		Enter the file name you want to replace it,	 or leave it empty to create a new image:<br/>
+		<input id="textPut" type="text" value="img2.png">
+		<input id="fileToPut" type="file" onchange="PUT();" /> 
+		<input id="putContents" name=""  " hidden="on"> <input type="submit">
+	</form>
+
+		
+
+     <figure >
+    		<img src="images/img1.png" height="100" style="max-width: 100%"/>
+    		<figcaption>img1.png</figcaption>
+	</figure>
+	
+	<figure>
+    		<img src="images/img2.png"  height="80" width="80"/>
+    		<figcaption>img2.png</figcaption>
+	</figure>
+	
+		
+		<script type="text/javascript">
+ 		
+ 		function POST() {
+			var SelectedFilesArray = document.getElementById("fileToPost").files;
+			var TextPost = document.getElementById("textPost").value;
+    			if (SelectedFilesArray.length > 0 ) {
+				var fileToLoad = SelectedFilesArray[0];
+				var fileReader = new FileReader();
+				fileReader.onload = function(fileLoadedEvent) {
+					var filename = fileToLoad.name;
+					var postForm = document.getElementById("post");
+					if (TextPost != "" && TextPost.length != 0 && TextPost != null)
+								postForm.action = postForm.action + "/" + TextPost;
+						else
+								postForm.action =  "/" ;
+					
+            			var content = document.getElementById("postContents");
+					content.value = fileLoadedEvent.target.result;
+					content.name = filename;
+        			};
+				fileReader.readAsDataURL(fileToLoad);
+ 				}
+			}
+			
+			
+			function PUT() {
+				var SelectedFilesArray = document.getElementById("fileToPut").files;
+				var TextPut = document.getElementById("textPut").value;
+    			
+    				if (SelectedFilesArray.length > 0 ) {
+        				var fileToLoad = SelectedFilesArray[0];
+					var fileReader = new FileReader();
+ 					fileReader.onload = function(fileLoadedEvent) {
+            				var filename = fileToLoad.name;
+						var putForm = document.getElementById("put");
+						if (TextPut != "" && TextPut.length != 0 && TextPut != null)
+								putForm.action = putForm.action + "/" + TextPut;
+						else
+								putForm.action = putForm.action + "/" + filename;
+            		
+            				var content = document.getElementById("putContents");
+            				content.value = fileLoadedEvent.target.result;
+						content.name = filename;
+        				};
+ 				fileReader.readAsDataURL(fileToLoad);
+ 				}
+			}
+			
+			
+		 </script>
+</body>
+</html>
